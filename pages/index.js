@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "react-three-fiber";
 import DefaultLayout from "../layouts/default";
 
@@ -29,14 +29,25 @@ function Box(props) {
 }
 
 export default function Home() {
+  const scrollArea = useRef();
+
+  const [top, setTop] = useState(0);
+  const [pages] = useState(5);
+  const onScroll = (e) => setTop(e.target.scrollTop);
+
+  useEffect(() => void onScroll({ target: scrollArea.current }), []);
+
   return (
     <DefaultLayout>
-      <Canvas>
-        <ambientLight />
+      <Canvas orthographic>
+        {/* <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} /> */}
       </Canvas>
+      <div ref={scrollArea} onScroll={onScroll}>
+        <div style={{ height: `${pages * 100}vh` }} />
+      </div>
     </DefaultLayout>
   );
 }
