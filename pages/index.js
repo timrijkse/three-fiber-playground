@@ -1,53 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Canvas, useFrame } from "react-three-fiber";
+import React from "react";
 import DefaultLayout from "../layouts/default";
+import Three from "../modules/three";
 
-function Box(props) {
-  // This reference will give us direct access to the mesh
-  const mesh = useRef();
-
-  // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-
-  // Rotate mesh every frame, this is outside of React without overhead
-  useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
-
-  return (
-    <mesh
-      {...props}
-      ref={mesh}
-      scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
-      onClick={(e) => setActive(!active)}
-      onPointerOver={(e) => setHover(true)}
-      onPointerOut={(e) => setHover(false)}
-    >
-      <boxBufferGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
-    </mesh>
-  );
-}
-
-export default function Home() {
-  const scrollArea = useRef();
-
-  const [top, setTop] = useState(0);
-  const [pages] = useState(5);
-  const onScroll = (e) => setTop(e.target.scrollTop);
-
-  useEffect(() => void onScroll({ target: scrollArea.current }), []);
-
+const Home = () => {
   return (
     <DefaultLayout>
-      <Canvas orthographic>
-        {/* <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} /> */}
-      </Canvas>
-      <div ref={scrollArea} onScroll={onScroll}>
-        <div style={{ height: `${pages * 100}vh` }} />
-      </div>
+      <Three />
     </DefaultLayout>
   );
-}
+};
+
+export default Home;

@@ -18,10 +18,9 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   body, html, #__next {
+    overflow: hidden;
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
   }
 `;
 
